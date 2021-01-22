@@ -8,21 +8,15 @@ import com.example.ulesson.util.MainCoroutineRule
 import com.example.ulesson.util.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert.*
 
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 
 import org.hamcrest.CoreMatchers.*
 import org.hamcrest.MatcherAssert
 import org.junit.Rule
-import org.mockito.ArgumentMatchers.*
-import org.mockito.Mockito.*
-import org.mockito.ArgumentCaptor.*
 
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
@@ -47,9 +41,9 @@ class MainViewModelTest {
     @Test
     fun `assert that call to network passes`() {
         mainCoroutine.runBlockingTest {
-            mainViewModel.getSubjects()
+            mainViewModel.getAllUsers()
 
-            val status = mainViewModel.fetchingSubject.getOrAwaitValue()
+            val status = mainViewModel.fetchAllUsers.getOrAwaitValue()
             MatcherAssert.assertThat(status, `is`(Resource.success(Unit)))
         }
     }
@@ -58,9 +52,9 @@ class MainViewModelTest {
     fun `assert that error response is received when error occurs calling network`() {
         mainCoroutine.runBlockingTest {
             repository.setShouldReturnError(true)
-            mainViewModel.getSubjects()
+            mainViewModel.getAllUsers()
 
-            val status = mainViewModel.fetchingSubject.getOrAwaitValue()
+            val status = mainViewModel.fetchAllUsers.getOrAwaitValue()
             MatcherAssert.assertThat(status, `is`(Resource.error("error occurred")))
         }
     }
@@ -68,12 +62,12 @@ class MainViewModelTest {
     @Test
     fun `assert that call to network saves subject data`() {
         mainCoroutine.runBlockingTest {
-            mainViewModel.getSubjects()
+            mainViewModel.getAllUsers()
 
-            val status = mainViewModel.fetchingSubject.getOrAwaitValue()
+            val status = mainViewModel.fetchAllUsers.getOrAwaitValue()
             MatcherAssert.assertThat(status, `is`(Resource.success(Unit)))
 
-            val subjects = mainViewModel.subjects.getOrAwaitValue()
+            val subjects = mainViewModel.userList.getOrAwaitValue()
             MatcherAssert.assertThat(subjects, `is`(TestObjectUtil.data))
         }
     }

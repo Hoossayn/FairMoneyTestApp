@@ -10,15 +10,15 @@ class MainViewModel @ViewModelInject constructor(
     private val repository: Repository
 ):ViewModel() {
 
-    private val _subjects = MutableLiveData<Unit>()
+    private val _userList = MutableLiveData<Unit>()
 
-    fun getSubjects() {
-        _subjects.value = Unit
+    fun getAllUsers() {
+        _userList.value = Unit
     }
 
-    val fetchingSubject = _subjects.switchMap {
+    val fetchAllUsers = _userList.switchMap {
         repository.getAllUsersFromRemote()
     }
 
-    val subjects = repository.getAllUsersFromLocal()
+    val userList = repository.getAllUsersFromLocal()
 }

@@ -4,11 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fairmoneytestapp.R
 import com.example.fairmoneytestapp.data.helper.Resource
 import com.example.fairmoneytestapp.databinding.ActivityMainBinding
 import com.example.fairmoneytestapp.ui.userDetail.UserDetailActivity
@@ -31,7 +29,7 @@ class MainActivity : AppCompatActivity(),MainActivityAdapter.CharacterItemListen
 
         setupRecyclerView()
         setupObservers()
-        viewModel.getSubjects()
+        viewModel.getAllUsers()
 
     }
 
@@ -43,7 +41,7 @@ class MainActivity : AppCompatActivity(),MainActivityAdapter.CharacterItemListen
 
 
     private fun setupObservers() {
-        viewModel.fetchingSubject.observe(this, Observer {
+        viewModel.fetchAllUsers.observe(this, Observer {
             when (it.status) {
                 Resource.Status.SUCCESS -> {
                     binding.progressBar.visibility = View.GONE
@@ -60,7 +58,7 @@ class MainActivity : AppCompatActivity(),MainActivityAdapter.CharacterItemListen
             }
         })
 
-        viewModel.subjects.observe(this, Observer {
+        viewModel.userList.observe(this, Observer {
             if (it.isNotEmpty())
                 adapter.setItems(it)
         })
@@ -69,7 +67,6 @@ class MainActivity : AppCompatActivity(),MainActivityAdapter.CharacterItemListen
 
 
     override fun onClickedCharacter(characterId: String) {
-        Toast.makeText(this,characterId, Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, UserDetailActivity::class.java)
         intent.putExtra(UserDetailActivity.EXTRAS_MOVIE_ID, characterId)
