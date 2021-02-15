@@ -35,8 +35,8 @@ class MainViewModelTest {
     @Before
     fun setup() {
         mainViewModel = MainViewModel(repository)
-    }
 
+    }
 
     @Test
     fun `assert that call to network passes`() {
@@ -71,6 +71,4 @@ class MainViewModelTest {
             MatcherAssert.assertThat(subjects, `is`(TestObjectUtil.data))
         }
     }
-
-
 }

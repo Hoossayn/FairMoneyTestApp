@@ -44,7 +44,6 @@ class UserDetailViewModelTest {
 
     @Before
     fun setup() {
-
         viewModel = UserDetailViewModel(repository)
     }
 
